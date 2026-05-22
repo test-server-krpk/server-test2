@@ -86,7 +86,7 @@
             100% { transform: translateY(105vh) translateX(-5px) scale(0.5); opacity: 0; }
         }
 
-        /* === ШАПКА (как в index) === */
+        /* === ШАПКА === */
         .header-premium {
             background-color: #2d2d2d;
             background-image:
@@ -195,7 +195,7 @@
 
         @keyframes pickaxeSwing { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(20deg); } 75% { transform: rotate(-15deg); } }
 
-        /* === ЦЕНТРАЛЬНЫЙ БЛОК === */
+        /* === ОСНОВНОЙ КОНТЕНТ === */
         .main-content {
             flex: 1 1 0;
             display: flex;
@@ -237,7 +237,7 @@
             text-shadow: 1px 1px 0 #000; line-height: 1.5;
         }
 
-        /* Кнопка скачивания с анимацией как у "ЗАДОНАТИТЬ" */
+        /* Кнопка "СКАЧАТЬ ВСЕ МОДЫ" — только подсветка, без изменения размеров */
         .mods-download-btn {
             background: #2e7d32;
             border: none;
@@ -249,7 +249,7 @@
             cursor: pointer;
             letter-spacing: 2px;
             text-shadow: 2px 2px 0 #000;
-            transition: padding 0.15s ease, font-size 0.15s ease, background 0.2s, box-shadow 0.15s ease;
+            transition: background 0.2s, box-shadow 0.2s;   /* только фон и тень */
             display: inline-block;
             backface-visibility: hidden;
             transform: translateZ(0);
@@ -257,16 +257,13 @@
 
         .mods-download-btn:hover {
             background: #388e3c;
-            padding: 13px 26px;
-            font-size: 20px;
             box-shadow: inset -2px -2px 0 #1b5e20, inset 2px 2px 0 #81c784, 0 0 0 4px #000;
         }
 
         .mods-download-btn:active {
-            padding: 11px 22px;
-            font-size: 18px;
+            background: #388e3c;
             box-shadow: inset 4px 4px 0 #000, inset -2px -2px 0 #1b5e20, 0 0 0 4px #000;
-            transform: translate(2px, 2px) translateZ(0);
+            transform: translateZ(0);   /* без смещения */
         }
 
         .back-link {
@@ -350,6 +347,7 @@
                 Все необходимые моды упакованы в один удобный архив.<br>
                 Скачай, распакуй в папку <strong>.minecraft/mods</strong> и заходи на сервер!
             </p>
+            <!-- ЗАМЕНИ ССЫЛКУ НА СВОЮ -->
             <a href="https://github.com/твой-юзер/твой-репо/releases/download/v1.0/mods.zip" 
                id="mods-download-btn" 
                class="mods-download-btn"
