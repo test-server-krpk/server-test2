@@ -109,13 +109,16 @@
             gap: 20px;
         }
 
+        /* 👇 ИСПРАВЛЕНИЕ: обрезаем всё, что вылезает за границы контейнера */
         .nav-item-wrapper {
             display: flex;
             align-items: center;
             position: relative;
             height: 72px;
+            overflow: hidden;              /* ← вот это главное */
         }
 
+        /* 👇 ИСПРАВЛЕНИЕ: отдельный слой и скрытая обратная сторона */
         .nav-icon-block {
             display: flex;
             align-items: center;
@@ -129,6 +132,9 @@
             z-index: 3;
             transition: transform 0.2s ease, background 0.2s;
             cursor: pointer;
+            backface-visibility: hidden;  /* ← новое */
+            transform: translateZ(0);     /* ← форсируем слой */
+            will-change: transform;       /* ← оптимизация */
         }
 
         .nav-icon {
@@ -584,11 +590,12 @@
         </div>
     </footer>
 
-    <audio id="sound-click" preload="none">
+    <!-- 👇 ЗАГРУЖАЕМ ЗВУКИ ЗАРАНЕЕ -->
+    <audio id="sound-click" preload="auto">
         <source src="click.ogg" type="audio/ogg">
         <source src="click.mp3" type="audio/mpeg">
     </audio>
-    <audio id="sound-exp" preload="none">
+    <audio id="sound-exp" preload="auto">
         <source src="exp.ogg" type="audio/ogg">
         <source src="exp.mp3" type="audio/mpeg">
     </audio>
@@ -633,6 +640,8 @@
 
         function playSound(audio) {
             if (!audio || muted) return;
+            // 👇 Гарантированно останавливаем предыдущее воспроизведение
+            audio.pause();
             audio.currentTime = 0;
             audio.play().catch(() => {});
         }
@@ -674,4 +683,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
