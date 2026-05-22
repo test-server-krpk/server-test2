@@ -23,6 +23,11 @@
             image-rendering: pixelated;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             background-color: #1e1e1e;
             background-image:
@@ -33,11 +38,8 @@
             background-size: 32px 32px, 32px 32px, 8px 8px, 100% 100%;
             background-attachment: fixed;
             color: #E0E0E0;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             overflow-x: hidden;
             position: relative;
             box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.8);
@@ -84,6 +86,7 @@
             100% { transform: translateY(105vh) translateX(-5px) scale(0.5); opacity: 0; }
         }
 
+        /* === ШАПКА (как в index) === */
         .header-premium {
             background-color: #2d2d2d;
             background-image:
@@ -91,14 +94,14 @@
                 repeating-linear-gradient(-45deg, rgba(0,0,0,0.15) 2px, transparent 4px);
             background-size: 12px 12px, 12px 12px;
             border-bottom: 5px solid #4caf50;
-            padding: 14px 50px;
+            padding: 18px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
             position: relative;
             z-index: 100;
-            width: 100%;
+            flex-shrink: 0;
         }
 
         .header-premium::after {
@@ -114,28 +117,35 @@
             box-shadow: 0 0 12px #4caf50;
         }
 
-        .nav-vertical-left { display: flex; flex-direction: column; gap: 14px; }
-        .nav-item-wrapper { display: flex; align-items: center; position: relative; height: 64px; }
+        .nav-vertical-left { display: flex; flex-direction: column; gap: 20px; }
+        .nav-item-wrapper { display: flex; align-items: center; position: relative; height: 72px; }
 
         .nav-icon-block {
             display: flex; align-items: center; justify-content: center;
             background: #545454; border: 4px solid #000000;
             box-shadow: inset -3px -3px 0 #2a2a2a, inset 3px 3px 0 #7a7a7a;
-            width: 64px; height: 64px; padding: 10px; z-index: 3;
-            transition: background 0.2s; cursor: pointer;
+            width: 72px; height: 72px; padding: 12px; z-index: 3;
+            transition: transform 0.2s ease, background 0.2s; cursor: pointer;
             backface-visibility: hidden;
             transform: translateZ(0);
+            will-change: transform;
         }
 
-        .nav-icon { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
+        .nav-icon { width: 40px; height: 40px; flex-shrink: 0; object-fit: contain; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
 
-        .nav-item-wrapper:not(.active):not(.wrapper-donate):hover .nav-icon-block {
+        .nav-item-wrapper:not(.active):not(.wrapper-donate):hover .nav-icon-block,
+        .nav-item-wrapper:not(.active):not(.wrapper-donate) .nav-icon-block:active {
+            transform: scale(1.08);
             background: #6b6b6b;
             box-shadow: inset -2px -2px 0 #2a2a2a, inset 2px 2px 0 #9a9a9a;
         }
+        .nav-item-wrapper:not(.active):not(.wrapper-donate):hover .nav-icon,
+        .nav-item-wrapper:not(.active):not(.wrapper-donate) .nav-icon-block:active .nav-icon {
+            transform: scale(1.05);
+        }
 
         .mc-nav-drawer-btn {
-            position: absolute; left: 60px; top: 0; height: 64px; width: 0;
+            position: absolute; left: 68px; top: 0; height: 72px; width: 0;
             background: #545454; border: 4px solid #000000;
             box-shadow: inset -3px -3px 0 #2a2a2a, inset 0px 3px 0 #7a7a7a;
             display: flex; align-items: center; overflow: hidden; z-index: 2;
@@ -143,33 +153,57 @@
             transition: width 0.35s cubic-bezier(0.25, 1, 0.35, 1) 0.08s, opacity 0.25s ease 0.08s;
         }
 
-        .nav-item-wrapper:hover .mc-nav-drawer-btn { width: 190px; opacity: 1; }
+        .nav-item-wrapper:hover .mc-nav-drawer-btn { width: 210px; opacity: 1; }
         .mc-nav-drawer-btn:hover { background: #6b6b6b; }
 
-        .nav-text { font-size: 18px; color: #fff; position: absolute; left: 20px; white-space: nowrap; letter-spacing: 2px; text-shadow: 2px 2px 0 #000; }
+        .nav-text { font-size: 20px; color: #fff; position: absolute; left: 22px; white-space: nowrap; letter-spacing: 2px; text-shadow: 2px 2px 0 #000; }
 
         .nav-item-wrapper.active .nav-icon-block { background: #4caf50; box-shadow: inset -3px -3px 0 #2e7d32, inset 3px 3px 0 #81c784; }
         .nav-item-wrapper.active .mc-nav-drawer-btn { background: #4caf50; box-shadow: inset -3px -3px 0 #2e7d32, inset 0px 3px 0 #81c784; }
 
         .wrapper-donate .nav-icon-block { background: #2e7d32; box-shadow: inset -3px -3px 0 #1b5e20, inset 3px 3px 0 #66bb6a; }
         .wrapper-donate:hover .nav-icon-block,
-        .wrapper-donate .nav-icon-block:active { background: #388e3c; box-shadow: inset -2px -2px 0 #1b5e20, inset 2px 2px 0 #81c784; }
-        .btn-donate-drawer { background: #2e7d32; box-shadow: inset -3px -3px 0 #1b5e20, inset 0px 3px 0 #66bb6a; left: 59px; }
+        .wrapper-donate .nav-icon-block:active {
+            background: #388e3c;
+            transform: scale(1.08);
+            box-shadow: inset -2px -2px 0 #1b5e20, inset 2px 2px 0 #81c784;
+        }
+        .btn-donate-drawer {
+            background: #2e7d32;
+            box-shadow: inset -3px -3px 0 #1b5e20, inset 0px 3px 0 #66bb6a;
+            left: 67px;
+        }
         .wrapper-donate .mc-nav-drawer-btn:hover,
-        .btn-donate-drawer:hover { background: #388e3c; box-shadow: inset -3px -3px 0 #1b5e20, inset 0px 3px 0 #81c784; }
+        .btn-donate-drawer:hover {
+            background: #388e3c;
+            box-shadow: inset -3px -3px 0 #1b5e20, inset 0px 3px 0 #81c784;
+        }
         .wrapper-donate .mc-nav-drawer-btn:active,
-        .btn-donate-drawer:active { background: #388e3c; box-shadow: inset -3px -3px 0 #1b5e20, inset 0px 3px 0 #81c784; }
+        .btn-donate-drawer:active {
+            background: #388e3c;
+            box-shadow: inset -3px -3px 0 #1b5e20, inset 0px 3px 0 #81c784;
+        }
 
         .server-title-clean {
             font-weight: normal; color: #ffffff; text-transform: uppercase;
-            text-shadow: 3px 3px 0 #000000, 0 0 20px rgba(76, 175, 80, 0.7);
+            text-shadow: 3px 3px 0 #000000, 0 0 20px rgba(76, 175, 80, 0.7), 0 0 40px rgba(76, 175, 80, 0.3);
             display: flex; flex-direction: column; align-items: center; line-height: 1.1;
         }
-        .title-main-row { display: flex; flex-direction: row; gap: 10px; letter-spacing: 3px; align-items: baseline; font-size: 48px; }
-        .title-subtitle { font-size: 22px; letter-spacing: 3px; margin-top: 2px; text-shadow: 2px 2px 0 #000, 0 0 10px rgba(76, 175, 80, 0.4); }
-        .title-icon { width: 30px; height: 30px; margin-top: 8px; filter: drop-shadow(0 0 12px #4caf50); animation: pickaxeSwing 2.5s ease-in-out infinite; object-fit: contain; }
+        .title-main-row { display: flex; flex-direction: row; gap: 14px; letter-spacing: 4px; align-items: baseline; font-size: 56px; }
+        .title-subtitle { font-size: 26px; letter-spacing: 3px; margin-top: 4px; text-shadow: 2px 2px 0 #000, 0 0 10px rgba(76, 175, 80, 0.4); }
+        .title-icon { width: 36px; height: 36px; margin-top: 12px; filter: drop-shadow(0 0 12px #4caf50); animation: pickaxeSwing 2.5s ease-in-out infinite; object-fit: contain; }
 
         @keyframes pickaxeSwing { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(20deg); } 75% { transform: rotate(-15deg); } }
+
+        /* === ЦЕНТРАЛЬНЫЙ БЛОК === */
+        .main-content {
+            flex: 1 1 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 5;
+        }
 
         .mods-container {
             background: #2d2d2d;
@@ -178,8 +212,6 @@
             padding: 40px;
             max-width: 500px;
             width: 90%;
-            margin: 20px;
-            z-index: 10;
             text-align: center;
         }
 
@@ -205,6 +237,7 @@
             text-shadow: 1px 1px 0 #000; line-height: 1.5;
         }
 
+        /* Кнопка скачивания с анимацией как у "ЗАДОНАТИТЬ" */
         .mods-download-btn {
             background: #2e7d32;
             border: none;
@@ -244,38 +277,39 @@
         }
         .back-link:hover { color: #fff; text-decoration: underline; }
 
+        /* mute widget */
         .mute-widget {
-            position: fixed; bottom: 70px; right: 15px; z-index: 9999;
-            display: flex; align-items: center; gap: 10px;
+            position: fixed; bottom: 80px; right: 20px; z-index: 9999;
+            display: flex; align-items: center; gap: 14px;
             background: #2d2d2d; border: 4px solid #000000;
             box-shadow: inset -3px -3px 0 #1a1a1a, inset 3px 3px 0 #5a5a5a, 3px 3px 0 #000;
-            padding: 8px 14px; cursor: pointer; user-select: none;
+            padding: 10px 16px; cursor: pointer; user-select: none;
         }
-        .mute-label { font-size: 14px; color: #a5d6a7; text-shadow: 2px 2px 0 #000; letter-spacing: 1px; }
-        .mute-toggle-track { width: 48px; height: 26px; background: #2e7d32; border: 3px solid #000; box-shadow: inset 2px 2px 0 #1b5e20; position: relative; overflow: hidden; }
-        .mute-thumb { width: 22px; height: 24px; background: #9c9c9c; box-shadow: inset -2px -2px 0 #565656, inset 2px 2px 0 #e0e0e0; position: absolute; top: -2px; left: 0; transform: translateX(20px); transition: transform 0.12s ease; z-index: 5; }
+        .mute-label { font-size: 16px; color: #a5d6a7; text-shadow: 2px 2px 0 #000; letter-spacing: 1px; }
+        .mute-toggle-track { width: 54px; height: 30px; background: #2e7d32; border: 3px solid #000; box-shadow: inset 2px 2px 0 #1b5e20; position: relative; overflow: hidden; }
+        .mute-thumb { width: 26px; height: 28px; background: #9c9c9c; box-shadow: inset -2px -2px 0 #565656, inset 2px 2px 0 #e0e0e0; position: absolute; top: -2px; left: 0; transform: translateX(22px); transition: transform 0.12s ease; z-index: 5; }
         .mute-widget.muted .mute-toggle-track { background: #a82626; box-shadow: inset 2px 2px 0 #5e1414; }
         .mute-widget.muted .mute-thumb { transform: translateX(0); }
 
         @media (max-width: 768px) {
-            .header-premium { flex-direction: column; gap: 12px; padding: 14px; align-items: flex-start; }
-            .nav-vertical-left { flex-direction: column; gap: 10px; width: 100%; }
-            .nav-item-wrapper { height: 56px; }
-            .nav-icon-block { width: 56px; height: 56px; padding: 8px; }
-            .nav-icon { width: 30px; height: 30px; }
-            .mc-nav-drawer-btn { height: 56px; left: 52px; }
-            .nav-item-wrapper:hover .mc-nav-drawer-btn { width: 150px; }
-            .nav-text { font-size: 16px; left: 16px; }
-            .btn-donate-drawer { left: 51px; }
+            .header-premium { flex-direction: column; gap: 20px; padding: 20px; align-items: flex-start; }
+            .nav-vertical-left { flex-direction: column; gap: 14px; width: 100%; }
+            .nav-item-wrapper { height: 60px; }
+            .nav-icon-block { width: 60px; height: 60px; padding: 10px; }
+            .nav-icon { width: 34px; height: 34px; }
+            .mc-nav-drawer-btn { height: 60px; left: 56px; }
+            .nav-item-wrapper:hover .mc-nav-drawer-btn { width: 170px; }
+            .nav-text { font-size: 18px; left: 16px; }
+            .btn-donate-drawer { left: 55px; }
             .server-title-clean { align-self: center; }
-            .title-main-row { flex-direction: column; align-items: center; gap: 4px; font-size: 26px; }
-            .title-subtitle { font-size: 14px; }
-            .title-icon { width: 22px; height: 22px; }
+            .title-main-row { flex-direction: column; align-items: center; gap: 4px; font-size: 28px; }
+            .title-subtitle { font-size: 16px; }
+            .title-icon { width: 24px; height: 24px; }
             .mods-title { font-size: 22px; }
             .mods-subtitle { font-size: 22px; }
             .mods-download-btn { font-size: 18px; padding: 12px 25px; }
-            .mute-widget { bottom: 120px; right: 10px; padding: 6px 10px; gap: 8px; }
-            .mute-label { font-size: 13px; }
+            .mute-widget { bottom: 135px; right: 15px; padding: 8px 12px; gap: 10px; }
+            .mute-label { font-size: 14px; }
         }
     </style>
 </head>
@@ -308,22 +342,24 @@
         </h1>
     </header>
 
-    <div class="mods-container">
-        <div class="mods-title">МОДЫ</div>
-        <div class="mods-subtitle">❖ СЕРВЕРА ❖</div>
-        <p class="mods-description">
-            Все необходимые моды упакованы в один удобный архив.<br>
-            Скачай, распакуй в папку <strong>.minecraft/mods</strong> и заходи на сервер!
-        </p>
-        <a href="https://github.com/твой-юзер/твой-репо/releases/download/v1.0/mods.zip" 
-           id="mods-download-btn" 
-           class="mods-download-btn"
-           download>
-            💾 СКАЧАТЬ ВСЕ МОДЫ 💾
-        </a>
-        <br>
-        <a href="index.html" class="back-link" id="back-btn">← Вернуться на главную</a>
-    </div>
+    <main class="main-content">
+        <div class="mods-container">
+            <div class="mods-title">МОДЫ</div>
+            <div class="mods-subtitle">❖ СЕРВЕРА ❖</div>
+            <p class="mods-description">
+                Все необходимые моды упакованы в один удобный архив.<br>
+                Скачай, распакуй в папку <strong>.minecraft/mods</strong> и заходи на сервер!
+            </p>
+            <a href="https://github.com/твой-юзер/твой-репо/releases/download/v1.0/mods.zip" 
+               id="mods-download-btn" 
+               class="mods-download-btn"
+               download>
+                💾 СКАЧАТЬ ВСЕ МОДЫ 💾
+            </a>
+            <br>
+            <a href="index.html" class="back-link" id="back-btn">← Вернуться на главную</a>
+        </div>
+    </main>
 
     <audio id="sound-click" preload="auto">
         <source src="click.ogg" type="audio/ogg">
