@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДОНАТ | NOVATORI ESHKERE CRAFT</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        @font-face {
+            font-family: 'MinecraftTitleCyrillic';
+            src: url('minecraft.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'MinecraftTitleCyrillic', 'Courier New', monospace;
+            border-radius: 0 !important;
+            image-rendering: pixelated;
+        }
+
+        body {
+            background-color: #1e1e1e;
+            background-image:
+                linear-gradient(45deg, rgba(60, 60, 60, 0.15) 2px, transparent 2px),
+                linear-gradient(-45deg, rgba(60, 60, 60, 0.15) 2px, transparent 2px),
+                linear-gradient(0deg, rgba(40, 40, 40, 0.3) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(76, 175, 80, 0.08) 0%, transparent 60%);
+            background-size: 32px 32px, 32px 32px, 8px 8px, 100% 100%;
+            background-attachment: fixed;
+            color: #E0E0E0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Устранение артефактов (полосок) при увеличении (scale) */
+        a, button {
+            outline: none;
+            text-decoration: none;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            top: -10px;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle at 30% 30%, #a5d6a7, #2e7d32);
+            box-shadow: 0 0 8px #4caf50, 0 0 12px rgba(76, 175, 80, 0.5);
+            border-radius: 50% !important;
+            opacity: 0;
+            animation: floatParticle linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(-20px) translateX(0px) scale(0.8); opacity: 0; }
+            10% { opacity: 0.9; }
+            30% { transform: translateY(30vh) translateX(15px) scale(1.2); opacity: 0.8; }
+            60% { transform: translateY(65vh) translateX(-20px) scale(0.9); opacity: 0.5; }
+            85% { transform: translateY(85vh) translateX(10px) scale(0.7); opacity: 0.2; }
+            100% { transform: translateY(105vh) translateX(-5px) scale(0.5); opacity: 0; }
+        }
+
+        .donate-container {
+            background: #2d2d2d;
+            border: 6px solid #000;
+            box-shadow: inset -3px -3px 0 #1a1a1a, inset 3px 3px 0 #5a5a5a, 0 20px 40px rgba(0,0,0,0.8);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            margin: 20px;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .donate-title {
+            font-size: 32px; color: #fff; text-transform: uppercase;
+            text-shadow: 3px 3px 0 #000, 0 0 20px rgba(76, 175, 80, 0.7);
+            margin-bottom: 20px; letter-spacing: 2px;
+        }
+
+        .donate-description {
+            font-size: 16px; color: #a5d6a7; margin-bottom: 30px;
+            text-shadow: 1px 1px 0 #000; line-height: 1.5;
+        }
+
+        .donate-button {
+            background: #2e7d32;
+            border: 4px solid #000;
+            box-shadow: inset -3px -3px 0 #1b5e20, inset 3px 3px 0 #66bb6a;
+            color: #fff;
+            font-size: 22px;
+            text-transform: uppercase;
+            padding: 15px 30px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 #000;
+            transition: transform 0.1s ease, background 0.2s;
+            display: inline-block;
+        }
+
+        .donate-button:hover { background: #388e3c; transform: scale(0.98) translateZ(0); }
+        .donate-button:active { box-shadow: inset 4px 4px 0 #000, inset -2px -2px 0 #1b5e20; transform: translate(2px, 2px) translateZ(0); }
+
+        .back-link {
+            color: #a5d6a7; font-size: 18px;
+            margin-top: 25px; display: inline-block;
+            text-shadow: 1px 1px 0 #000; transition: color 0.15s;
+            cursor: pointer;
+        }
+        .back-link:hover { color: #fff; text-decoration: underline; }
+
+        /* Mute Widget */
+        .mute-widget {
+            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+            display: flex; align-items: center; gap: 14px;
+            background: #2d2d2d; border: 4px solid #000000;
+            box-shadow: inset -3px -3px 0 #1a1a1a, inset 3px 3px 0 #5a5a5a, 3px 3px 0 #000;
+            padding: 10px 16px; cursor: pointer; user-select: none;
+        }
+        .mute-label { font-size: 16px; color: #a5d6a7; text-shadow: 2px 2px 0 #000; letter-spacing: 1px; }
+        .mute-toggle-track {
+            width: 54px; height: 30px; background: #2e7d32;
+            border: 3px solid #000000; box-shadow: inset 2px 2px 0 #1b5e20;
+            position: relative; overflow: hidden;
+        }
+        .mute-thumb {
+            width: 26px; height: 28px; background: #9c9c9c;
+            box-shadow: inset -2px -2px 0 #565656, inset 2px 2px 0 #e0e0e0;
+            position: absolute; top: -2px; left: 0; transform: translateX(22px);
+            transition: transform 0.12s ease; z-index: 5;
+        }
+        .mute-widget.muted .mute-toggle-track { background: #a82626; box-shadow: inset 2px 2px 0 #5e1414; }
+        .mute-widget.muted .mute-thumb { transform: translateX(0); }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .donate-title { font-size: 24px; }
+            .donate-button { font-size: 18px; padding: 12px 25px; }
+            .mute-widget { 
+                bottom: 8px; /* В самый низ */
+                right: 8px;  /* Ближе к краю */
+                transform: scale(0.9); /* Слегка уменьшен для аккуратности */
+                transform-origin: bottom right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particles-container"></div>
+
+    <div class="donate-container">
+        <h1 class="donate-title">❖ ПОДДЕРЖАТЬ ПРОЕКТ ❖</h1>
+        <p class="donate-description">
+            Твоя поддержка помогает серверу NOVATORI ESHKERE CRAFT становиться лучше! 
+            Все собранные средства пойдут на развитие проекта и новые крутые фишки.
+        </p>
+        <button id="donate-btn" class="donate-button">💎 ЗАДОНАТИТЬ 💎</button>
+        <br>
+        <a href="index.html" class="back-link" id="back-btn">← Вернуться на главную</a>
+    </div>
+
+    <audio id="sound-click" preload="none"><source src="click.ogg" type="audio/ogg"><source src="click.mp3" type="audio/mpeg"></audio>
+    <audio id="sound-exp" preload="none"><source src="exp.ogg" type="audio/ogg"><source src="exp.mp3" type="audio/mpeg"></audio>
+
+    <div class="mute-widget" id="mute-widget">
+        <span class="mute-label">ЗВУК</span>
+        <div class="mute-toggle-track"><div class="mute-thumb"></div></div>
+    </div>
+
+    <script src="https://widget.cloudtips.ru/bundle.js" async></script>
+    <script>
+        // Частицы
+        (function() {
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                p.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // Звук
+        const soundClick = document.getElementById('sound-click');
+        const soundExp = document.getElementById('sound-exp');
+        const muteWidget = document.getElementById('mute-widget');
+
+        let muted = localStorage.getItem('muted') === 'true';
+        if (muted) muteWidget.classList.add('muted');
+
+        function playSound(audio) {
+            if (!audio || muted) return;
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+
+        // Кнопка Mute
+        muteWidget.addEventListener('click', () => {
+            muted = !muted;
+            localStorage.setItem('muted', muted);
+            muteWidget.classList.toggle('muted');
+            playSound(soundClick);
+        });
+
+        // Кнопка Доната
+        document.getElementById('donate-btn').addEventListener('click', function() {
+            playSound(soundClick);
+            if (typeof ctips !== 'undefined') {
+                new ctips.CloudTipsSiteWidget().open({layoutid: 'deefa13f'}, {
+                    onSuccess: () => { playSound(soundExp); alert('Спасибо за поддержку!'); },
+                    onFail: () => { alert('Ошибка оплаты.'); }
+                });
+            }
+        });
+
+        // Кнопка Назад (со звуком и задержкой перехода)
+        document.getElementById('back-btn').addEventListener('click', function(e) {
+            e.preventDefault(); // Останавливаем мгновенный переход
+            playSound(soundClick);
+            const targetUrl = this.getAttribute('href');
+            
+            // Ждем 150мс, чтобы звук успел начаться, затем переходим
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 150); 
+        });
+    </script>
+</body>
+</html>
